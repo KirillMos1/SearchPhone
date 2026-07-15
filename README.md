@@ -1,4 +1,4 @@
-<h1 align="center">SearchPhone 🕵🏽‍♂️ (FORK OF KIRILLMOS1)</h1>
+<h1 align="center">SearchPhone 🕵🏽‍♂️ (Forked by KirillMos1)</h1>
 
 <p align="center">
 Это самоисчерпывающй OSINT-инструмент для поиска привязанной к телефону информации, используя несколько API доя сбора информации с различных источнков. Разработано на Python для CLI
