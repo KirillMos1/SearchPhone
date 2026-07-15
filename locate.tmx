@@ -239,5 +239,36 @@
       <tuv xml:lang="en"><seg>Region</seg></tuv>
       <tuv xml:lang="ru"><seg>Регион</seg></tuv>
     </tu>
+
+    <!-- Technical translatoins -->
+    <!-- Технические переводы -->
+
+    <!-- 35 -->
+    <tu>
+      <tuv xml:lang="es"><seg>es</seg></tuv>
+      <tuv xml:lang="en"><seg>en</seg></tuv>
+      <tuv xml:lang="ru"><seg>ru</seg></tuv>
+    </tu>
+
+    <!-- 36 -->
+    <tu>
+      <tuv xml:lang="es"><seg>pe</seg></tuv>
+      <tuv xml:lang="en"><seg>us</seg></tuv>
+      <tuv xml:lang="ru"><seg>ru</seg></tuv>
+    </tu>
+
+    <!-- 37 -->
+    <tu>
+      <tuv xml:lang="es"><seg>contacto</seg></tuv>
+      <tuv xml:lang="en"><seg>contacts</seg></tuv>
+      <tuv xml:lang="ru"><seg>контакты</seg></tuv>
+    </tu>
+
+    <!-- 38 -->
+    <tu>
+      <tuv xml:lang="es"><seg>celular</seg></tuv>
+      <tuv xml:lang="en"><seg>phonenumber</seg></tuv>
+      <tuv xml:lang="ru"><seg>мобильный номер</seg></tuv>
+    </tu>
   </body>
 </tmx>
