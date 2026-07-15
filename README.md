@@ -44,6 +44,7 @@
 echo "NUMVERIFY_KEY=<ваш ключ>" >> .env
 echo "SERPAPI_KEY=<ваш ключ>" >> .env
 echo "GITHUB_TOKEN=<ваш ключ>" >> .env
+echo "SEARCHPHONE_LANG=<язык>" >> .env
 ```
 
 Файл [`example.env`](https://github.com/KirillMos1/SearchPhone/edit/main/example.env) можете спокойно удалить
