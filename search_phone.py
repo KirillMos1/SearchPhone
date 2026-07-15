@@ -7,6 +7,7 @@ import re
 import json
 import time
 import requests
+import xml.etree.ElementTree as ET
 from colorama import Fore, init, Style
 from dotenv import load_dotenv
 from datetime import datetime
@@ -15,14 +16,48 @@ from phonenumbers import carrier, geocoder, timezone
 import concurrent.futures
 from urllib.parse import quote_plus
 
+class Translator:
+    def __init__(self, lang: str[2]):
+        self.lang = lang
+        if not lang:
+            print(f"{Fore.YELLOW} Lang of tool not defined. Using english for default.")
+            lang = "en"
+        self._loader()
+
+    def _loader(self):
+        tree = ET.parse("locate.tmx")
+        root = tree.getroot()
+
+        translations = {}
+
+        for tu in root.findall('.//tu'):
+            segs = {}
+            for tuv in tu.findall('tuv'):
+                lang = tuv.get('{http://www.w3.org/XML/1998/namespace}lang')
+                seg = tuv.find('seg').text
+                segs[lang] = seg
+
+            es_text = segs.get('es', '')
+            translations[es_text] = segs
+
+        self.quotes = []
+        for es_key, langs in translations.items():
+            if self.lang in langs:
+                quotes.append(langs[lang_code])
+
+    def __getitem__(self, ind):
+        return self.quotes[ind]
+
+tr = Translator(os.getenv("SEARCHPHONE_LANG", ""))
+
 # Intentar importar fpdf para PDF | Пробуем создать PDF
 try:
     from fpdf import FPDF
     PDF_AVAILABLE = True
 except ImportError:
     PDF_AVAILABLE = False
-    print(f"{Fore.YELLOW}⚠️ fpdf не установлен. PDF не сгенерирован.")
-    print(f"{Fore.WHITE} Установить: pip install fpdf")
+    print(f"{Fore.YELLOW}⚠️ {tr[0]}. {tr[1]}.")
+    print(f"{Fore.WHITE} {tr[3]}: pip install fpdf")
 
 # Load environment variables
 load_dotenv()
@@ -51,7 +86,7 @@ jgs  |[:::]|                '-----'
 
 class PhoneOSINT:
     def __init__(self):
-        # SOLO LAS QUE FUNCIONAN | Только те, что работают
+        # SOLO LAS QUE FUNCIONAN
         self.api_keys = {
             'numverify': os.getenv('NUMVERIFY_KEY', ''),
             'serpapi': os.getenv('SERPAPI_KEY', ''),
@@ -118,7 +153,7 @@ class PhoneOSINT:
                         'line_type': data.get('line_type')
                     }
         except Exception as e:
-            print(f"{Fore.RED}❌ Numverify: Ошибка - {e}")
+            print(f"{Fore.RED}❌ Numverify: {tr[14]} - {e}")
         return None
     
     def search_google(self, phone_number):
@@ -150,7 +185,7 @@ class PhoneOSINT:
                     })
                 return results
         except Exception as e:
-            print(f"{Fore.RED}❌ Google: Ошибка - {e}")
+            print(f"{Fore.RED}❌ Google: {tr[14]} - {e}")
         return []
     
     def search_duckduckgo(self, phone_number):
@@ -173,7 +208,7 @@ class PhoneOSINT:
                     })
                 return results
         except Exception as e:
-            print(f"{Fore.RED}❌ DuckDuckGo: Ошибка - {e}")
+            print(f"{Fore.RED}❌ DuckDuckGo: {tr[14]} - {e}")
         return []
     
     def search_reddit(self, phone_number):
@@ -193,7 +228,7 @@ class PhoneOSINT:
                 for item in data.get('data', {}).get('children', []):
                     post = item.get('data', {})
                     results.append({
-                        'title': post.get('title', 'Sin título'),
+                        'title': post.get('title', tr[3]),
                         'subreddit': post.get('subreddit', ''),
                         'url': f"https://reddit.com{post.get('permalink', '')}",
                         'score': post.get('score', 0),
@@ -201,7 +236,7 @@ class PhoneOSINT:
                     })
                 return results
         except Exception as e:
-            print(f"{Fore.RED}❌ Reddit: Ошибка - {e}")
+            print(f"{Fore.RED}❌ Reddit: {tr[14]} - {e}")
         return []
     
     def search_github(self, phone_number):
@@ -227,14 +262,14 @@ class PhoneOSINT:
                 for item in data.get('items', [])[:10]:
                     repo = item.get('repository', {})
                     results.append({
-                        'repository': repo.get('full_name', 'Неизвестно'),
+                        'repository': repo.get('full_name', tr[4]),
                         'path': item.get('path', ''),
                         'url': item.get('html_url', ''),
                         'language': repo.get('language', ''),
                     })
                 return results
         except Exception as e:
-            print(f"{Fore.RED}❌ GitHub: Ошибка - {e}")
+            print(f"{Fore.RED}❌ GitHub: {tr[14]} - {e}")
         return []
     
     def analyze_phone(self, number, region='pe'):
@@ -246,26 +281,26 @@ class PhoneOSINT:
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
         print(f"\n{Fore.CYAN}{'='*60}")
-        print(f"{Fore.GREEN}📱 Анализ номера: {number}")
+        print(f"{Fore.GREEN}📱 {tr[5]}: {number}")
         print(f"{Fore.CYAN}{'='*60}\n")
         
         # Basic validation
         phone_info = self.validate_phone(number, region)
         if not phone_info:
-            print(f"{Fore.RED}❌ Номер телефона некорректный")
+            print(f"{Fore.RED}❌ {tr[6]}")
             return
         
         self.results['phone_info'] = phone_info
         
         # Display basic info 
-        print(f"{Fore.GREEN}✅ Основные данные:")
-        print(f"{Fore.YELLOW}  📞 Номер в международном формате: {Fore.WHITE}{phone_info['international']}")
-        print(f"{Fore.YELLOW}  🌍 Страна: {Fore.WHITE}{phone_info['country']}")
-        print(f"{Fore.YELLOW}  📡 Оператор сотовой связи: {Fore.WHITE}{phone_info['carrier']}")
-        print(f"{Fore.YELLOW}  🕐 Зона часового пояса: {Fore.WHITE}{', '.join(phone_info['timezone'])}")
+        print(f"{Fore.GREEN}✅ {tr[7]}:")
+        print(f"{Fore.YELLOW}  📞 {tr[8]}: {Fore.WHITE}{phone_info['international']}")
+        print(f"{Fore.YELLOW}  🌍 {tr[9]}: {Fore.WHITE}{phone_info['country']}")
+        print(f"{Fore.YELLOW}  📡 {tr[10]}: {Fore.WHITE}{phone_info['carrier']}")
+        print(f"{Fore.YELLOW}  🕐 {tr[11]}: {Fore.WHITE}{', '.join(phone_info['timezone'])}")
         
         # Parallel API calls - SOLO LAS QUE FUNCIONAN
-        print(f"\n{Fore.GREEN}🔍 Запросы к API")
+        print(f"\n{Fore.GREEN}🔍 {tr[12]}")
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
             futures = {
@@ -286,17 +321,17 @@ class PhoneOSINT:
                             self.results['numverify'] = result
                             print(f"{Fore.GREEN}✅ Numverify: OK")
                         else:
-                            print(f"{Fore.YELLOW}⚠️ Numverify: Данных нет")
+                            print(f"{Fore.YELLOW}⚠️ Numverify: {tr[31]}")
                             
                     else:
                         if result and len(result) > 0:
                             self.results[source] = result
-                            print(f"{Fore.GREEN}✅ {source.capitalize()}: {len(result)} результата(ов)")
+                            print(f"{Fore.GREEN}✅ {source.capitalize()}: {len(result)} {tr[13]}")
                         else:
-                            print(f"{Fore.YELLOW}⚠️ {source.capitalize()}: 0 результатов")
+                            print(f"{Fore.YELLOW}⚠️ {source.capitalize()}: 0 {tr[13]}")
                             
                 except Exception as e:
-                    print(f"{Fore.RED}❌ {source.capitalize()}: Ошибка - {str(e)[:60]}")
+                    print(f"{Fore.RED}❌ {source.capitalize()}: {tr[14]} - {str(e)[:60]}")
         
         self.display_results()
         self.export_results()
@@ -305,7 +340,7 @@ class PhoneOSINT:
     def display_results(self):
         """Display all collected results"""
         print(f"\n{Fore.CYAN}{'='*60}")
-        print(f"{Fore.GREEN}📊 ПРОВЕРКА ЗАКОНЧЕНА")
+        print(f"{Fore.GREEN}📊 {tr[32]}")
         print(f"{Fore.CYAN}{'='*60}\n")
         
         # Numverify
@@ -313,11 +348,11 @@ class PhoneOSINT:
             print(f"{Fore.YELLOW}📱 Номер:")
             nv = self.results['numverify']
             if nv.get('carrier'):
-                print(f"{Fore.WHITE}  Оператор: {nv['carrier']}")
+                print(f"{Fore.WHITE}  {tr[10]}: {nv['carrier']}")
             if nv.get('line_type'):
-                print(f"{Fore.WHITE}  Тип: {nv['line_type']}")
+                print(f"{Fore.WHITE}  {tr[15]}: {nv['line_type']}")
             if nv.get('country'):
-                print(f"{Fore.WHITE}  Страна: {nv['country']}")
+                print(f"{Fore.WHITE}  {tr[9]}: {nv['country']}")
             print()
         
         # Google
@@ -335,7 +370,7 @@ class PhoneOSINT:
         if self.results.get('reddit') and len(self.results['reddit']) > 0:
             print(f"{Fore.YELLOW}📝 REDDIT:")
             for i, post in enumerate(self.results['reddit'][:3], 1):
-                print(f"{Fore.WHITE}  {i}. {post.get('title', 'Sin título')[:80]}")
+                print(f"{Fore.WHITE}  {i}. {post.get('title', tr[3])[:80]}")
                 if post.get('url'):
                     print(f"     {Fore.BLUE}🔗 {post['url']}")
                 if post.get('subreddit'):
@@ -346,7 +381,7 @@ class PhoneOSINT:
         if self.results.get('github') and len(self.results['github']) > 0:
             print(f"{Fore.YELLOW}💻 GITHUB:")
             for i, item in enumerate(self.results['github'][:3], 1):
-                repo = item.get('repository', 'Неизвестно')
+                repo = item.get('repository', tr[4])
                 path = item.get('path', '')
                 url = item.get('url', '')
                 language = item.get('language', '')
@@ -359,12 +394,12 @@ class PhoneOSINT:
                 if url:
                     print(f"     {Fore.BLUE}🔗 {url}")
                 if language:
-                    print(f"     💻 Язык: {language}")
+                    print(f"     💻 {tr[16]}: {language}")
             print()
         
         # Summary
         print(f"{Fore.CYAN}{'='*60}")
-        print(f"{Fore.GREEN}📊 РЕЗУЛЬТАТЫ:")
+        print(f"{Fore.GREEN}📊 {tr[26]}:")
         
         total_found = 0
         services = [
@@ -376,20 +411,20 @@ class PhoneOSINT:
         
         for name, count in services:
             if count > 0:
-                print(f"{Fore.WHITE}  {name}: {count} результатов")
+                print(f"{Fore.WHITE}  {name}: {count} {tr[13]}")
                 total_found += count
         
         if total_found == 0:
-            print(f"{Fore.YELLOW}  Ни один из источников не дал результатов")
+            print(f"{Fore.YELLOW}  {tr[17]}")
         
-        print(f"{Fore.YELLOW}\n  Всего результатов: {total_found}")
+        print(f"{Fore.YELLOW}\n  {tr[18]}: {total_found}")
         print(f"{Fore.CYAN}{'='*60}\n")
         
         self.show_export_info()
     
     def show_export_info(self):
         """Mostrar información de los archivos exportados"""
-        print(f"{Fore.GREEN}📄 Отчеты сохранены в папку {self.report_dir}")
+        print(f"{Fore.GREEN}📄 {tr[19]} {self.report_dir}")
         print(f"{Fore.WHITE}  JSON: {self.get_filename('json')}")
         print(f"{Fore.WHITE}  PDF:  {self.get_filename('pdf')}")
         print(f"{Fore.CYAN}{'='*60}\n")
@@ -436,14 +471,14 @@ class PhoneOSINT:
         try:
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(export_data, f, indent=2, ensure_ascii=False)
-            print(f"{Fore.GREEN}✅ JSON exportado: {filename}")
+            print(f"{Fore.GREEN}✅ JSON {tr[20]}: {filename}")
         except Exception as e:
-            print(f"{Fore.RED}❌ Error exportando JSON: {e}")
+            print(f"{Fore.RED}❌ {tr[21]}: {e}")
     
     def export_pdf(self):
         """Exportar resultados a PDF"""
         if not PDF_AVAILABLE:
-            print(f"{Fore.YELLOW}⚠️ PDF не сгенерирован (FPDF не найден)")
+            print(f"{Fore.YELLOW}⚠️ {tr[22]}")
             return
             
         try:
@@ -453,11 +488,11 @@ class PhoneOSINT:
             pdf.add_page()
             
             pdf.set_font("Arial", "B", 16)
-            pdf.cell(190, 10, "SearchPhone OSINT - ОТЧЕТ", ln=True, align='C')
+            pdf.cell(190, 10, f"SearchPhone OSINT - {tr[23]}", ln=True, align='C')
             pdf.set_font("Arial", "", 10)
-            pdf.cell(190, 6, f"Номер: {self.phone_number}", ln=True)
-            pdf.cell(190, 6, f"Регион: {self.region.upper()}", ln=True)
-            pdf.cell(190, 6, f"Время: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+            pdf.cell(190, 6, f"{tr[8]}: {self.phone_number}", ln=True)
+            pdf.cell(190, 6, f"{tr[33]}: {self.region.upper()}", ln=True)
+            pdf.cell(190, 6, f"{tr[24]}: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
             pdf.ln(5)
             
             pdf.set_draw_color(0, 0, 0)
@@ -466,15 +501,15 @@ class PhoneOSINT:
             
             # Información básica
             pdf.set_font("Arial", "B", 12)
-            pdf.cell(190, 8, "ОСНОВНАЯ ИНФОРМАЦИЯ", ln=True)
+            pdf.cell(190, 8, tr[25], ln=True)
             pdf.set_font("Arial", "", 10)
             
             phone_info = self.results.get('phone_info', {})
             if phone_info:
-                pdf.cell(190, 6, f"  Номер по E.164: {self.clean_text(phone_info.get('international', 'N/A'))}", ln=True)
-                pdf.cell(190, 6, f"  Страна: {self.clean_text(phone_info.get('country', 'N/A'))}", ln=True)
-                pdf.cell(190, 6, f"  Оператор: {self.clean_text(phone_info.get('carrier', 'N/A'))}", ln=True)
-                pdf.cell(190, 6, f"  Зона часового пояса: {self.clean_text(', '.join(phone_info.get('timezone', ['N/A'])))}", ln=True)
+                pdf.cell(190, 6, f"  {tr[8]}: {self.clean_text(phone_info.get('international', 'N/A'))}", ln=True)
+                pdf.cell(190, 6, f"  {tr[9]}: {self.clean_text(phone_info.get('country', 'N/A'))}", ln=True)
+                pdf.cell(190, 6, f"  {tr[10]}: {self.clean_text(phone_info.get('carrier', 'N/A'))}", ln=True)
+                pdf.cell(190, 6, f"  {tr[11]}: {self.clean_text(', '.join(phone_info.get('timezone', ['N/A'])))}", ln=True)
             
             pdf.ln(5)
             
@@ -485,9 +520,9 @@ class PhoneOSINT:
                 pdf.set_font("Arial", "", 10)
                 nv = self.results['numverify']
                 if nv.get('carrier'):
-                    pdf.cell(190, 6, f"  Оператор: {self.clean_text(nv['carrier'])}", ln=True)
+                    pdf.cell(190, 6, f"  {tr[10]}: {self.clean_text(nv['carrier'])}", ln=True)
                 if nv.get('line_type'):
-                    pdf.cell(190, 6, f"  Тип: {self.clean_text(nv['line_type'])}", ln=True)
+                    pdf.cell(190, 6, f"  {tr[15]}: {self.clean_text(nv['line_type'])}", ln=True)
                 pdf.ln(5)
             
             # Google
@@ -496,7 +531,7 @@ class PhoneOSINT:
                 pdf.cell(190, 8, "GOOGLE", ln=True)
                 pdf.set_font("Arial", "", 10)
                 for i, item in enumerate(self.results['google'][:5], 1):
-                    title = self.clean_text(item.get('title', 'Sin titulo'))[:100]
+                    title = self.clean_text(item.get('title', tr[3]))[:100]
                     link = self.clean_text(item.get('link', ''))
                     snippet = self.clean_text(item.get('snippet', ''))[:200]
                     
@@ -518,7 +553,7 @@ class PhoneOSINT:
                 pdf.cell(190, 8, "REDDIT", ln=True)
                 pdf.set_font("Arial", "", 10)
                 for i, post in enumerate(self.results['reddit'][:3], 1):
-                    title = self.clean_text(post.get('title', 'Sin titulo'))[:80]
+                    title = self.clean_text(post.get('title', tr[3]))[:80]
                     url = self.clean_text(post.get('url', ''))
                     
                     pdf.cell(190, 6, f"  {i}. {title}", ln=True)
@@ -534,7 +569,7 @@ class PhoneOSINT:
                 pdf.cell(190, 8, "GITHUB", ln=True)
                 pdf.set_font("Arial", "", 10)
                 for i, item in enumerate(self.results['github'][:3], 1):
-                    repo = self.clean_text(item.get('repository', 'Неизвестно'))
+                    repo = self.clean_text(item.get('repository', tr[4]))
                     path = self.clean_text(item.get('path', ''))
                     url = self.clean_text(item.get('url', ''))
                     
@@ -550,7 +585,7 @@ class PhoneOSINT:
             
             # Resumen
             pdf.set_font("Arial", "B", 12)
-            pdf.cell(190, 8, "RESUMEN", ln=True)
+            pdf.cell(190, 8, tr[26], ln=True)
             pdf.set_font("Arial", "", 10)
             
             total_found = 0
@@ -558,30 +593,26 @@ class PhoneOSINT:
             for source in services:
                 count = len(self.results.get(source, []))
                 if count > 0:
-                    pdf.cell(190, 6, f"  {source.capitalize()}: {count} результатов", ln=True)
+                    pdf.cell(190, 6, f"  {source.capitalize()}: {count} {tr[13]}", ln=True)
                     total_found += count
             
-            pdf.cell(190, 6, f"\n  ВСЕГО РЕЗУЛЬТАТОВ: {total_found}", ln=True)
+            pdf.cell(190, 6, f"\n  {tr[27]}: {total_found}", ln=True)
             
             pdf.output(filename)
-            print(f"{Fore.GREEN}✅ PDF сохранен: {filename}")
+            print(f"{Fore.GREEN}✅ PDF {tr[20]}: {filename}")
             
         except Exception as e:
-            print(f"{Fore.RED}❌ Ошибка сохранения в PDF: {e}")
+            print(f"{Fore.RED}❌ {tr[28]}: {e}")
 
 def main():
     # Imprimir ASCII art en verde
     print(Fore.GREEN + ascii_art)
     
     # Get input
-    phone_number = input(Fore.GREEN + "📱 Введите номер телефона: ")
-    region = input(Fore.GREEN + "🌍 Введите регион (для примера: ru - Россия\n             ua - Украина\n             us -  США\n             pe - Перу\n): ")
+    phone_number = input(Fore.GREEN + "📱 {tr[29]}: ")
+    region = input(Fore.GREEN + "🌍 {tr[30]}: ")
     
-    # Create analyzer instance
-    analyzer = PhoneOSINT()
-    
-    # Analyze
-    analyzer.analyze_phone(phone_number, region)
+    PhoneOSINT().analyze_phone(phone_number, region)
 
 if __name__ == "__main__":
     main()
