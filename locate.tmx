@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+  <header srclang="es" adminlang="en" datatype="PlainText" o-tmf="unknown" creationtool="TMX Readctor" creationtoolversion="0.1-beta"/>
+  <body>
+    <!-- 1 -->
+    <tu>
+      <tuv xml:lang="es"><seg>fpdf no instalado</seg></tuv>
+      <tuv xml:lang="en"><seg>fpdf not installed</seg></tuv>
+      <tuv xml:lang="ru"><seg>fpdf не установлен</seg></tuv>
+    </tu>
+
+    <!-- 2 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Los PDFs no se generarán</seg></tuv>
+      <tuv xml:lang="en"><seg>PDF not generated</seg></tuv>
+      <tuv xml:lang="ru"><seg>PDF не сгенерирован</seg></tuv>
+    </tu>
+
+    <!-- 3 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Instalar con</seg></tuv>
+      <tuv xml:lang="en"><seg>Install via</seg></tuv>
+      <tuv xml:lang="ru"><seg>Установить</seg></tuv>
+    </tu>
+
+    <!-- 4 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Sin título</seg></tuv>
+      <tuv xml:lang="en"><seg>Without name</seg></tuv>
+      <tuv xml:lang="ru"><seg>Без имени</seg></tuv>
+    </tu>
+
+    <!-- 5 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Desconocido</seg></tuv>
+      <tuv xml:lang="en"><seg>Unknown</seg></tuv>
+      <tuv xml:lang="ru"><seg>Неизвестно</seg></tuv>
+    </tu>
+
+    <!-- 6 -->
+    <tu>
+      <tuv xml:lang="es"><seg>ANALIZANDO NÚMERO</seg></tuv>
+      <tuv xml:lang="en"><seg>NUMBER ANALYSING</seg></tuv>
+      <tuv xml:lang="ru"><seg>АНАЛИЗ НОМЕРА</seg></tuv>
+    </tu>
+
+    <!-- 7 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Número de teléfono inválido</seg></tuv>
+      <tuv xml:lang="en"><seg>Phone number is invalid</seg></tuv>
+      <tuv xml:lang="ru"><seg>Номер некорретный</seg></tuv>
+    </tu>
+
+    <!-- 8 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Información básica</seg></tuv>
+      <tuv xml:lang="en"><seg>Basic information</seg></tuv>
+      <tuv xml:lang="ru"><seg>Основная информация</seg></tuv>
+    </tu>
+
+    <!-- 9 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Internacional</seg></tuv>
+      <tuv xml:lang="en"><seg>Phone in international format</seg></tuv>
+      <tuv xml:lang="ru"><seg>Телефон в международном формате</seg></tuv>
+    </tu>
+
+    <!-- 10 -->
+    <tu>
+      <tuv xml:lang="es"><seg>País</seg></tuv>
+      <tuv xml:lang="en"><seg>Country</seg></tuv>
+      <tuv xml:lang="ru"><seg>Страна</seg></tuv>
+    </tu>
+
+    <!-- 11 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Operador</seg></tuv>
+      <tuv xml:lang="en"><seg>Operator</seg></tuv>
+      <tuv xml:lang="ru"><seg>Оператор</seg></tuv>
+    </tu>
+
+    <!-- 12 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Zona Horaria</seg></tuv>
+      <tuv xml:lang="en"><seg>Time zone</seg></tuv>
+      <tuv xml:lang="ru"><seg>Временная зона</seg></tuv>
+    </tu>
+
+    <!-- 13 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Verificando en APIs...</seg></tuv>
+      <tuv xml:lang="en"><seg>Running API search...</seg></tuv>
+      <tuv xml:lang="ru"><seg>Начинаем запросы к API...</seg></tuv>
+    </tu>
+
+    <!-- 14 -->
+    <tu>
+      <tuv xml:lang="es"><seg>resultados</seg></tuv>
+      <tuv xml:lang="en"><seg>results</seg></tuv>
+      <tuv xml:lang="ru"><seg>результатов</seg></tuv>
+    </tu>
+
+    <!-- 15 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Error</seg></tuv>
+      <tuv xml:lang="en"><seg>Error</seg></tuv>
+      <tuv xml:lang="ru"><seg>Ошибка</seg></tuv>
+    </tu>
+
+    <!-- 16 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Tipo</seg></tuv>
+      <tuv xml:lang="en"><seg>Phone type</seg></tuv>
+      <tuv xml:lang="ru"><seg>Тип телефона</seg></tuv>
+    </tu>
+
+    <!-- 17 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Lenguaje</seg></tuv>
+      <tuv xml:lang="en"><seg>Language</seg></tuv>
+      <tuv xml:lang="ru"><seg>Язык</seg></tuv>
+    </tu>
+
+    <!-- 18 -->
+    <tu>
+      <tuv xml:lang="es"><seg>No se encontraron resultados en ninguna fuente</seg></tuv>
+      <tuv xml:lang="en"><seg>Nobody sources didn't tell results</seg></tuv>
+      <tuv xml:lang="ru"><seg>Ни один из источников не дал результатов</seg></tuv>
+    </tu>
+
+    <!-- 19 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Total de resultados</seg></tuv>
+      <tuv xml:lang="en"><seg>Total results</seg></tuv>
+      <tuv xml:lang="ru"><seg>Всего результатов</seg></tuv>
+    </tu>
+
+    <!-- 20 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Reportes guardados en</seg></tuv>
+      <tuv xml:lang="en"><seg>Reports generated to</seg></tuv>
+      <tuv xml:lang="ru"><seg>Отчеты сгенерированы в</seg></tuv>
+    </tu>
+
+    <!-- 21 -->
+    <tu>
+      <tuv xml:lang="es"><seg>exportado</seg></tuv>
+      <tuv xml:lang="en"><seg>exported</seg></tuv>
+      <tuv xml:lang="ru"><seg>экспортирован</seg></tuv>
+    </tu>
+
+    <!-- 22 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Error exportando JSON</seg></tuv>
+      <tuv xml:lang="en"><seg>JSON export error</seg></tuv>
+      <tuv xml:lang="ru"><seg>Ошибка эскпортирования JSON</seg></tuv>
+    </tu>
+
+    <!-- 23 -->
+    <tu>
+      <tuv xml:lang="es"><seg>PDF no generado (fpdf no instalado)</seg></tuv>
+      <tuv xml:lang="en"><seg>PDF not generated (fpdf not installed)</seg></tuv>
+      <tuv xml:lang="ru"><seg>PDF не был сгенерирован (не был установлен fpdf)</seg></tuv>
+    </tu>
+
+    <!-- 24 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Reporte</seg></tuv>
+      <tuv xml:lang="en"><seg>Report</seg></tuv>
+      <tuv xml:lang="ru"><seg>Отчет</seg></tuv>
+    </tu>
+
+    <!-- 25 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Fecha</seg></tuv>
+      <tuv xml:lang="en"><seg>Time</seg></tuv>
+      <tuv xml:lang="ru"><seg>Время</seg></tuv>
+    </tu>
+
+    <!-- 26 -->
+    <tu>
+      <tuv xml:lang="es"><seg>INFORMACION BASICA</seg></tuv>
+      <tuv xml:lang="en"><seg>BASIC INFORMATION</seg></tuv>
+      <tuv xml:lang="ru"><seg>ОСНОВНАЯ ИНФОРМАЦИЯ</seg></tuv>
+    </tu>
+
+    <!-- 27 -->
+    <tu>
+      <tuv xml:lang="es"><seg>RESUMEN</seg></tuv>
+      <tuv xml:lang="en"><seg>IN TOTAL</seg></tuv>
+      <tuv xml:lang="ru"><seg>ИТОГИ</seg></tuv>
+    </tu>
+
+    <!-- 28 -->
+    <tu>
+      <tuv xml:lang="es"><seg>TOTAL DE RESULTADOS</seg></tuv>
+      <tuv xml:lang="en"><seg>TOTAL RESULTS</seg></tuv>
+      <tuv xml:lang="ru"><seg>ВСЕГО РЕЗУЛЬТАТОВ</seg></tuv>
+    </tu>
+
+    <!-- 29 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Error exportando PDF</seg></tuv>
+      <tuv xml:lang="en"><seg>PDF export error</seg></tuv>
+      <tuv xml:lang="ru"><seg>Ошибка экспортирования PDF</seg></tuv>
+    </tu>
+
+    <!-- 30 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Introduce el número de teléfono</seg></tuv>
+      <tuv xml:lang="en"><seg>Enter phone number</seg></tuv>
+      <tuv xml:lang="ru"><seg>Введите номер телефона</seg></tuv>
+    </tu>
+
+    <!-- 31 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Introduce la región (ej. 'pe' para Perú)</seg></tuv>
+      <tuv xml:lang="en"><seg>Enter region (ex. 'us' is USA, 'en' is UK)</seg></tuv>
+      <tuv xml:lang="ru"><seg>Введите регион (для примера, 'ru' - Россия)</seg></tuv>
+    </tu>
+
+    <!-- 32 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Sin datos</seg></tuv>
+      <tuv xml:lang="en"><seg>No data</seg></tuv>
+      <tuv xml:lang="ru"><seg>Данных нет</seg></tuv>
+    </tu>
+
+    <!-- 33 -->
+    <tu>
+      <tuv xml:lang="es"><seg>REPORTE COMPLETO</seg></tuv>
+      <tuv xml:lang="en"><seg>REPORT COMPLETED</seg></tuv>
+      <tuv xml:lang="ru"><seg>ОТЧЕТ ЗАКОНЧЕН</seg></tuv>
+    </tu>
+
+    <!-- 34 -->
+    <tu>
+      <tuv xml:lang="es"><seg>Region</seg></tuv>
+      <tuv xml:lang="en"><seg>Region</seg></tuv>
+      <tuv xml:lang="ru"><seg>Регион</seg></tuv>
+    </tu>
+  </body>
+</tmx>
